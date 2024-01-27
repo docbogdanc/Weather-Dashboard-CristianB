@@ -1,0 +1,28 @@
+
+#leftForm {
+    border: solid 1px black;
+}
+
+#search-input {
+    border: solid 1px black;
+    width : 100%
+}
+.input-group-append {
+    border: solid 1px black;
+    width : 100%
+}
+#search-button {
+    margin-top: 5px;
+    width: 100%;
+}
+
+
+
+
+#today {
+    border: solid 1px black;
+}
+
+#forecast {
+    border: solid 1px black;
+}

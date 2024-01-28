@@ -18,19 +18,14 @@ $('#day3Title').text(day3After)
 $('#day4Title').text(day4After)
 $('#day5Title').text(day5After)
 
-// get cities from local storage if any
+// get cities from local storage if there is data in local storage
 var citiesStringLocal = localStorage.getItem("cities");
 // transform the string from local storage in an array
-console.log("local string is: " +  citiesStringLocal);
 var arrayOfCitySearched = JSON.parse(citiesStringLocal);
-// var arrayOfCitySearched = citiesStringLocal;
-console.log("local storage array : " + arrayOfCitySearched);
-// if there is a list of sity searched already saved on local storage then display those
+// if the data from local storage is not empty then display it
 if (arrayOfCitySearched && arrayOfCitySearched.length > 0) {
   for (var index=0 ; index<arrayOfCitySearched.length ; index++) {
 
-    console.log(arrayOfCitySearched[index]);
-   
     var buttonForSearchedCity = $('<button>');
     buttonForSearchedCity.attr('id', 'buttonHistory')
     buttonForSearchedCity.text(arrayOfCitySearched[index]);
@@ -55,6 +50,10 @@ $("#search-button").on("click", function () {
     weatherCity(searchCity);
 
     $("#search-input").val('');
+    // bring back the data from local storage to assure that it the list is updated
+    var citiesStringLocal = localStorage.getItem("cities");
+    // transform the string from local storage in an array
+    var arrayOfCitySearched = JSON.parse(citiesStringLocal);
     // check if the city name is not already in the array ; if not, create button for it
     if ($.inArray(searchCity, arrayOfCitySearched) == -1) {
         var buttonForSearchedCity = $('<button>');
@@ -68,9 +67,9 @@ $("#search-button").on("click", function () {
             arrayOfCitySearched = [];
         }
         arrayOfCitySearched.push(searchCity);
-        console.log("The array is : " + arrayOfCitySearched);
+  
         var stringOfCitySearched = JSON.stringify(arrayOfCitySearched);
-        console.log(stringOfCitySearched);
+
         localStorage.setItem("cities", stringOfCitySearched);
 
     };
@@ -89,7 +88,7 @@ $("#history").on("click", "#buttonHistory" ,function () {
 // reset history of searches
 $("#resetHistory").on("click", function () {
     event.preventDefault();
-    console.log('reset');
+
     $('#history').empty();
     localStorage.removeItem('cities')
 

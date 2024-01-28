@@ -17,41 +17,16 @@ $('#day4Title').text(day4After)
 $('#day5Title').text(day5After)
 
 var arrayOfCitySearched = [];
-
-// display weather for default city - London
-$('#currentCityDate').text("London ("+currentDay + ")")
-var cityQueryURL = queryURL + "London" + "&units=metric&appid=" + key;
-fetch(cityQueryURL)
-        .then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            $('#currentTemperature').text(" Temp: " + data.main.temp + "°C");
-            $('#currentWind').text(" Wind: " + data.wind.speed + "KPH");
-            $('#currentHumidity').text(" Humidity: " + data.main.humidity + "%");
-        });
-        
-var forrecastCityURL = forrecastURL + "London" + "&units=metric&appid=" + key;
-fetch(forrecastCityURL)
-        .then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            for (var i=1 ; i<=5 ; i++) {
-            $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
-            $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");
-            $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
-            }
-        });
-
-
-
-// click event to display weather for searched city
-$("#search-button").on("click", function () {
-    event.preventDefault()
-
-    searchCity = $("#search-input").val();
-    var cityQueryURL = queryURL + searchCity + "&units=metric&appid=" + key;
-    $('#currentCityDate').text(searchCity +  " ("+currentDay + ")")
-
+// if there is a list of sity searched already saved on local storage then display those
+if (arrayOfCitySearched.length !== 0) {
+  for (var index=0 ; index<arrayOfCitySearched.length ; index++) {
+    weatherCity(arrayOfCitySearched[index]);
+  }
+}
+// create a function to bring data from API and display it
+function weatherCity(city) {
+    // create a variable for the query API that include the searched city
+    var cityQueryURL = queryURL + city + "&units=metric&appid=" + key;
     fetch(cityQueryURL)
         .then(function (response) {
             return response.json();
@@ -61,17 +36,38 @@ $("#search-button").on("click", function () {
             $('#currentHumidity').text(" Humidity: " + data.main.humidity + "%");
         });
         
-    var forrecastCityURL = forrecastURL + searchCity + "&units=metric&appid=" + key;
+    var forrecastCityURL = forrecastURL + city + "&units=metric&appid=" + key;
     fetch(forrecastCityURL)
-            .then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                for (var i=1 ; i<=5 ; i++) {
-                $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
-                $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");           
-                $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
-                }
+        .then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            for (var i=1 ; i<=5 ; i++) {
+            $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
+            $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");
+            $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
+            }
         });
+}
+
+
+// display weather for default city - London
+$('#currentCityDate').text("London ("+currentDay + ")")
+weatherCity("London");
+    
+
+
+
+
+// click event to display weather for searched city
+$("#search-button").on("click", function () {
+    event.preventDefault()
+
+    searchCity = $("#search-input").val();
+    // exclude empty space as an accepted search word
+    if (searchCity.trim() === "") {return};
+
+    weatherCity(searchCity);
+
     $("#search-input").val('');
     // check if the city name is not already in the array ; if not, create button for it
     if ($.inArray(searchCity, arrayOfCitySearched) == -1) {
@@ -94,30 +90,7 @@ $("#history").on("click", "#buttonHistory" ,function () {
     event.preventDefault()
 
     searchCity = $(this).text();
+    
+    weatherCity(searchCity);
 
-    var cityQueryURL = queryURL + searchCity + "&units=metric&appid=" + key;
-    $('#currentCityDate').text(searchCity +  " ("+currentDay + ")")
-
-    fetch(cityQueryURL)
-        .then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            console.log(data);
-            $('#currentTemperature').text(" Temp: " + data.main.temp + "°C");
-            $('#currentWind').text(" Wind: " + data.wind.speed + "KPH");
-            $('#currentHumidity').text(" Humidity: " + data.main.humidity + "%");
-        });
-        
-    var forrecastCityURL = forrecastURL + searchCity + "&units=metric&appid=" + key;
-    fetch(forrecastCityURL)
-            .then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                console.log(data);
-                for (var i=1 ; i<=5 ; i++) {
-                $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
-                $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");           
-                $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
-                }
-        });
 });

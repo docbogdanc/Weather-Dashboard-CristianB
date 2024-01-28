@@ -28,8 +28,11 @@ if (arrayOfCitySearched && arrayOfCitySearched.length > 0) {
   for (var index=0 ; index<arrayOfCitySearched.length ; index++) {
 
     console.log(arrayOfCitySearched[index]);
-    weatherCity(arrayOfCitySearched[index]);
-    weatherCity("Barcelona")
+   
+    var buttonForSearchedCity = $('<button>');
+    buttonForSearchedCity.attr('id', 'buttonHistory')
+    buttonForSearchedCity.text(arrayOfCitySearched[index]);
+    $('#history').prepend(buttonForSearchedCity);
   }
 }
 

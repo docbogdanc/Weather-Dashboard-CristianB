@@ -22,10 +22,9 @@ $('#day5Title').text(day5After)
 var citiesStringLocal = localStorage.getItem("cities");
 // transform the string from local storage in an array
 var arrayOfCitySearched = JSON.parse(citiesStringLocal);
-// if the data from local storage is not empty then display it
+// if the data from local storage is not empty then re-create buttons for the cities
 if (arrayOfCitySearched && arrayOfCitySearched.length > 0) {
   for (var index=0 ; index<arrayOfCitySearched.length ; index++) {
-
     var buttonForSearchedCity = $('<button>');
     buttonForSearchedCity.attr('id', 'buttonHistory')
     buttonForSearchedCity.text(arrayOfCitySearched[index]);
@@ -36,17 +35,31 @@ if (arrayOfCitySearched && arrayOfCitySearched.length > 0) {
 
 
 // display weather for default city - London
-$('#currentCityDate').text("London ("+currentDay + ")")
-weatherCity("London");
+var cityQueryURL = queryURL + "London" + "&units=metric&appid=" + key;
+fetch(cityQueryURL)
+    .then(function (response) {
+        return response.json();
+    }).then(function (data) {
     
-// click event to display weather for searched city and create button for it
+    var iconURLondon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+    var iconElement = $("<img>").attr("src", iconURLondon);
+    $('#span1').text("London (" + currentDay + ")");
+    $('#span2').empty();
+    $('#span2').append(iconElement);
+    weatherCity("London");
+    })
+
+// click event to display the weather for searched city and create button for it
 $("#search-button").on("click", function () {
     event.preventDefault()
-
+    // allocate the user input city to a variable
     searchCity = $("#search-input").val();
-    $('#currentCityDate').text(searchCity + " ("+currentDay + ")")
+
+    // display the search city name and the current date
+    $('#span1').text(searchCity + " ("+ currentDay + ")");
     // exclude empty space as an accepted search word
     if (searchCity.trim() === "") {return};
+    // call the function to use API to fetch weather data and display it
     weatherCity(searchCity);
 
     $("#search-input").val('');
@@ -61,7 +74,7 @@ $("#search-button").on("click", function () {
         buttonForSearchedCity.text(searchCity);
         $('#history').prepend(buttonForSearchedCity);
 
-    // update the list of city searched array - needed to populate again after page refresh
+    // update the list of city searched array as is needed to populate again after page refresh
         // if the array doesn't exist, create one
         if (!arrayOfCitySearched || arrayOfCitySearched.length === 0){
             arrayOfCitySearched = [];
@@ -81,7 +94,7 @@ $("#search-button").on("click", function () {
 $("#history").on("click", "#buttonHistory" ,function () {
     event.preventDefault()
     searchCity = $(this).text();
-    $('#currentCityDate').text(searchCity + " ("+currentDay + ")")
+    $('#span1').text(searchCity + " ("+currentDay + ")")
     weatherCity(searchCity);
 });
 
@@ -104,6 +117,13 @@ function weatherCity(city) {
         .then(function (response) {
             return response.json();
         }).then(function (data) {
+            // console.log(data);
+
+            var iconURL = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+            var iconElement = $("<img>").attr("src", iconURL);
+            $('#span2').empty();
+            $('#span2').append(iconElement);
+
             $('#currentTemperature').text(" Temp: " + data.main.temp + "°C");
             $('#currentWind').text(" Wind: " + data.wind.speed + "KPH");
             $('#currentHumidity').text(" Humidity: " + data.main.humidity + "%");
@@ -115,6 +135,10 @@ function weatherCity(city) {
             return response.json();
         }).then(function (data) {
             for (var i=1 ; i<=5 ; i++) {
+            // console.log(data);
+            console.log(i);
+            var iconURL = `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png`
+            $("#day"+i+"card").children().eq(1).attr('src', iconURL);
             $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
             $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");
             $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");

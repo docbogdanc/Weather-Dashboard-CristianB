@@ -43,3 +43,7 @@
     background-color: #141134;
     color: white;
 }
+
+.icons {
+    transform: 0.5 !important;
+}

@@ -16,14 +16,22 @@ $('#day3Title').text(day3After)
 $('#day4Title').text(day4After)
 $('#day5Title').text(day5After)
 
-var arrayOfCitySearched = [];
+// get cities from local storage if any
+var citiesStringLocal = localStorage.getItem("cities");
+// transform the string from local storage in an array
+console.log("local string is: " +  citiesStringLocal);
+var arrayOfCitySearched = JSON.parse(citiesStringLocal);
+// var arrayOfCitySearched = citiesStringLocal;
+console.log("local storage array : " + arrayOfCitySearched);
 // if there is a list of sity searched already saved on local storage then display those
-if (arrayOfCitySearched.length !== 0) {
+if (arrayOfCitySearched && arrayOfCitySearched.length > 0) {
   for (var index=0 ; index<arrayOfCitySearched.length ; index++) {
+
+    console.log(arrayOfCitySearched[index]);
     weatherCity(arrayOfCitySearched[index]);
+    weatherCity("Barcelona")
   }
 }
-
 
 
 
@@ -31,9 +39,7 @@ if (arrayOfCitySearched.length !== 0) {
 $('#currentCityDate').text("London ("+currentDay + ")")
 weatherCity("London");
     
-
-
-// click event to display weather for searched city
+// click event to display weather for searched city and create button for it
 $("#search-button").on("click", function () {
     event.preventDefault()
 
@@ -41,7 +47,6 @@ $("#search-button").on("click", function () {
     $('#currentCityDate').text(searchCity + " ("+currentDay + ")")
     // exclude empty space as an accepted search word
     if (searchCity.trim() === "") {return};
-
     weatherCity(searchCity);
 
     $("#search-input").val('');
@@ -51,15 +56,20 @@ $("#search-button").on("click", function () {
         buttonForSearchedCity.attr('id', 'buttonHistory')
         buttonForSearchedCity.text(searchCity);
         $('#history').prepend(buttonForSearchedCity);
+
         // update the list of city searched array - needed to populate again after page refresh
         arrayOfCitySearched.push(searchCity);
-        console.log(arrayOfCitySearched);
+        console.log("The array is : " + arrayOfCitySearched);
+        var stringOfCitySearched = JSON.stringify(arrayOfCitySearched);
+        console.log(stringOfCitySearched);
+        localStorage.setItem("cities", stringOfCitySearched);
+
     };
 });
 
 
 // click event targeting the city clicked from history ; using event delegation to
-// target a new generated element
+// target a new generated element and display it's data API
 $("#history").on("click", "#buttonHistory" ,function () {
     event.preventDefault()
     searchCity = $(this).text();
@@ -69,7 +79,7 @@ $("#history").on("click", "#buttonHistory" ,function () {
 
 
 
-// create a function to bring data from API and display it
+// create a function to bring weather data from API and display it
 function weatherCity(city) {
     // create a variable for the query API that include the searched city
     var cityQueryURL = queryURL + city + "&units=metric&appid=" + key;

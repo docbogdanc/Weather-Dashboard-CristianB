@@ -22,13 +22,15 @@
     width: 100%;
 }
 
-
+#buttonHistory {
+    margin-top: 5px;
+    border-radius: 5px;
+}
 
 
 #today {
     border: solid 1px black;
 }
-
 
 
 .card-body {

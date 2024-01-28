@@ -46,7 +46,7 @@ fetch(forrecastCityURL)
 $("#search-button").on("click", function () {
     event.preventDefault()
     console.log(this);
-    // $("#search-input").empty();
+
 
     searchCity = $("#search-input").val();
     console.log(searchCity);
@@ -75,4 +75,9 @@ $("#search-button").on("click", function () {
                 $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
                 }
         });
+    $("#search-input").val('');
+    var buttonForSearchedCity = $('<button>');
+    buttonForSearchedCity.attr('id', 'buttonHistory')
+    buttonForSearchedCity.text(searchCity);
+    $('#history').prepend(buttonForSearchedCity);
 });

@@ -2,6 +2,7 @@ var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=";
 var forrecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
 var key = "7093b5895d7dff871294e9d20a842e17";
 
+
 var currentDay = dayjs().format("D/M/YYYY");
 var day1After = dayjs().add(1, 'day').format("D/M/YYYY");
 var day2After = dayjs().add(2, 'day').format("D/M/YYYY");
@@ -14,6 +15,8 @@ $('#day2Title').text(day2After)
 $('#day3Title').text(day3After)
 $('#day4Title').text(day4After)
 $('#day5Title').text(day5After)
+
+var arrayOfCitySearched = [];
 
 // display weather for default city - London
 $('#currentCityDate').text("London ("+currentDay + ")")
@@ -74,6 +77,9 @@ $("#search-button").on("click", function () {
     buttonForSearchedCity.attr('id', 'buttonHistory')
     buttonForSearchedCity.text(searchCity);
     $('#history').prepend(buttonForSearchedCity);
+    // update the list of city searched array - needed to populate again after page refresh
+    arrayOfCitySearched.push(searchCity);
+    console.log(arrayOfCitySearched);
 });
 
 

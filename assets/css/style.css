@@ -29,6 +29,9 @@
     border: solid 1px black;
 }
 
-#forecast {
-    border: solid 1px black;
+
+
+.card-body {
+    background-color: #141134;
+    color: white;
 }

@@ -1,8 +1,9 @@
+// creating varaible for weather API address and API key
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=";
 var forrecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
 var key = "7093b5895d7dff871294e9d20a842e17";
 
-
+// creating variables for current and 5days ahead dates
 var currentDay = dayjs().format("D/M/YYYY");
 var day1After = dayjs().add(1, 'day').format("D/M/YYYY");
 var day2After = dayjs().add(2, 'day').format("D/M/YYYY");
@@ -10,6 +11,7 @@ var day3After = dayjs().add(3, 'day').format("D/M/YYYY");
 var day4After = dayjs().add(4, 'day').format("D/M/YYYY");
 var day5After = dayjs().add(5, 'day').format("D/M/YYYY");
 
+// adding the dates to coresponding elements from html
 $('#day1Title').text(day1After)
 $('#day2Title').text(day2After)
 $('#day3Title').text(day3After)
@@ -60,7 +62,11 @@ $("#search-button").on("click", function () {
         buttonForSearchedCity.text(searchCity);
         $('#history').prepend(buttonForSearchedCity);
 
-        // update the list of city searched array - needed to populate again after page refresh
+    // update the list of city searched array - needed to populate again after page refresh
+        // if the array doesn't exist, create one
+        if (!arrayOfCitySearched || arrayOfCitySearched.length === 0){
+            arrayOfCitySearched = [];
+        }
         arrayOfCitySearched.push(searchCity);
         console.log("The array is : " + arrayOfCitySearched);
         var stringOfCitySearched = JSON.stringify(arrayOfCitySearched);
@@ -78,6 +84,15 @@ $("#history").on("click", "#buttonHistory" ,function () {
     searchCity = $(this).text();
     $('#currentCityDate').text(searchCity + " ("+currentDay + ")")
     weatherCity(searchCity);
+});
+
+// reset history of searches
+$("#resetHistory").on("click", function () {
+    event.preventDefault();
+    console.log('reset');
+    $('#history').empty();
+    localStorage.removeItem('cities')
+
 });
 
 

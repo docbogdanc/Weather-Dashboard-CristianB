@@ -17,6 +17,7 @@
 
     width : 100%
 }
+
 #search-button {
     margin-top: 5px;
     width: 100%;
@@ -27,6 +28,11 @@
     border-radius: 5px;
 }
 
+#resetHistory {
+    margin-top: 5px;
+    bottom: 5px;
+    width : 100%
+}
 
 #today {
     border: solid 1px black;

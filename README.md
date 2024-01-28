@@ -10,11 +10,11 @@ Weather Dashboard App - part of Bootcamp challenge
 
 This Project was created for bootcamp challenge.
 
-It tests the knowledge gained in HTML, CSS, JavaScript, JQuery, Dayjs and API during the last weeks, especially the implementation of API. 
+It tests the knowledge gained in HTML, CSS, JavaScript, JQuery, Dayjs and API during the last weeks, especially the implementation of API. It takes the user input and using API is fetching weather data from https://openweathermap.org/ . It is displaying the temperature, humidity and wind speed for the current day and the forecast weather for next 5 days. The searched city are displayed bellow the search box and the display history persist if the page is refreshed.
 
 This is how it looks:
 
-![image of results](...)
+![image of results](./assets/images/screenshot.png)
 
 
 
@@ -37,6 +37,10 @@ The code is free to be used according to the licence condition (please see the l
 
   
 - Bootstrap - used for card group model
+
+- Open weather website
+
+        https://openweathermap.org/
 
         
 

@@ -3,18 +3,12 @@
     background: linear-gradient(to right, #4d3fef, #070776);
 }
 
-#leftForm {
-    border: solid 1px black;
-}
-
 #search-input {
-
     width : 100%;
     border-radius: 5px;
 }
 
 .input-group-append {
-
     width : 100%
 }
 
@@ -34,8 +28,13 @@
     width : 100%
 }
 
+
 #today {
     border: solid 1px black;
+}
+
+#currentCityDate, #currentTemperature, #currentWind, #currentHumidity {
+    padding-left: 10px;
 }
 
 

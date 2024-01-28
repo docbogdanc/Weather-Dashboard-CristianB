@@ -15,13 +15,13 @@ $('#day3Title').text(day3After)
 $('#day4Title').text(day4After)
 $('#day5Title').text(day5After)
 
+// display weather for default city - London
 $('#currentCityDate').text("London ("+currentDay + ")")
 var cityQueryURL = queryURL + "London" + "&units=metric&appid=" + key;
 fetch(cityQueryURL)
         .then(function (response) {
             return response.json();
         }).then(function (data) {
-            console.log(data);
             $('#currentTemperature').text(" Temp: " + data.main.temp + "°C");
             $('#currentWind').text(" Wind: " + data.wind.speed + "KPH");
             $('#currentHumidity').text(" Humidity: " + data.main.humidity + "%");
@@ -32,7 +32,6 @@ fetch(forrecastCityURL)
         .then(function (response) {
             return response.json();
         }).then(function (data) {
-            console.log(data);
             for (var i=1 ; i<=5 ; i++) {
             $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
             $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");
@@ -42,15 +41,50 @@ fetch(forrecastCityURL)
 
 
 
-
+// click event to display weather for searched city
 $("#search-button").on("click", function () {
     event.preventDefault()
-    console.log(this);
-
 
     searchCity = $("#search-input").val();
-    console.log(searchCity);
-    var cityQueryURL = forrecastURL + searchCity + "&units=metric&appid=" + key;
+    var cityQueryURL = queryURL + searchCity + "&units=metric&appid=" + key;
+    $('#currentCityDate').text(searchCity +  " ("+currentDay + ")")
+
+    fetch(cityQueryURL)
+        .then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            $('#currentTemperature').text(" Temp: " + data.main.temp + "°C");
+            $('#currentWind').text(" Wind: " + data.wind.speed + "KPH");
+            $('#currentHumidity').text(" Humidity: " + data.main.humidity + "%");
+        });
+        
+    var forrecastCityURL = forrecastURL + searchCity + "&units=metric&appid=" + key;
+    fetch(forrecastCityURL)
+            .then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                for (var i=1 ; i<=5 ; i++) {
+                $("#day"+i+"card").children().eq(2).text(" Temp: " + data.list[i].main.temp + "°C");
+                $("#day"+i+"card").children().eq(3).text(" Wind: " + data.list[i].wind.speed + "KPH");           
+                $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
+                }
+        });
+    $("#search-input").val('');
+    var buttonForSearchedCity = $('<button>');
+    buttonForSearchedCity.attr('id', 'buttonHistory')
+    buttonForSearchedCity.text(searchCity);
+    $('#history').prepend(buttonForSearchedCity);
+});
+
+
+// click event targeting the city clicked from history ; using event delegation to
+// target a new generated element
+$("#history").on("click", "#buttonHistory" ,function () {
+    event.preventDefault()
+
+    searchCity = $(this).text();
+
+    var cityQueryURL = queryURL + searchCity + "&units=metric&appid=" + key;
     $('#currentCityDate').text(searchCity +  " ("+currentDay + ")")
 
     fetch(cityQueryURL)

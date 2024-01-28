@@ -73,13 +73,18 @@ $("#search-button").on("click", function () {
                 }
         });
     $("#search-input").val('');
-    var buttonForSearchedCity = $('<button>');
-    buttonForSearchedCity.attr('id', 'buttonHistory')
-    buttonForSearchedCity.text(searchCity);
-    $('#history').prepend(buttonForSearchedCity);
-    // update the list of city searched array - needed to populate again after page refresh
-    arrayOfCitySearched.push(searchCity);
-    console.log(arrayOfCitySearched);
+    // check if the city name is not already in the array ; if not, create button for it
+    if ($.inArray(searchCity, arrayOfCitySearched) == -1) {
+        var buttonForSearchedCity = $('<button>');
+        buttonForSearchedCity.attr('id', 'buttonHistory')
+        buttonForSearchedCity.text(searchCity);
+        $('#history').prepend(buttonForSearchedCity);
+        // update the list of city searched array - needed to populate again after page refresh
+        arrayOfCitySearched.push(searchCity);
+        console.log(arrayOfCitySearched);
+    };
+
+
 });
 
 

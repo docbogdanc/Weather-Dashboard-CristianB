@@ -120,9 +120,4 @@ $("#history").on("click", "#buttonHistory" ,function () {
                 $("#day"+i+"card").children().eq(4).text(" Humidity: " + data.list[i].main.humidity + "%");
                 }
         });
-    $("#search-input").val('');
-    var buttonForSearchedCity = $('<button>');
-    buttonForSearchedCity.attr('id', 'buttonHistory')
-    buttonForSearchedCity.text(searchCity);
-    $('#history').prepend(buttonForSearchedCity);
 });

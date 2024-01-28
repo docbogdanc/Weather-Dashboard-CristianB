@@ -23,6 +23,52 @@ if (arrayOfCitySearched.length !== 0) {
     weatherCity(arrayOfCitySearched[index]);
   }
 }
+
+
+
+
+// display weather for default city - London
+$('#currentCityDate').text("London ("+currentDay + ")")
+weatherCity("London");
+    
+
+
+// click event to display weather for searched city
+$("#search-button").on("click", function () {
+    event.preventDefault()
+
+    searchCity = $("#search-input").val();
+    $('#currentCityDate').text(searchCity + " ("+currentDay + ")")
+    // exclude empty space as an accepted search word
+    if (searchCity.trim() === "") {return};
+
+    weatherCity(searchCity);
+
+    $("#search-input").val('');
+    // check if the city name is not already in the array ; if not, create button for it
+    if ($.inArray(searchCity, arrayOfCitySearched) == -1) {
+        var buttonForSearchedCity = $('<button>');
+        buttonForSearchedCity.attr('id', 'buttonHistory')
+        buttonForSearchedCity.text(searchCity);
+        $('#history').prepend(buttonForSearchedCity);
+        // update the list of city searched array - needed to populate again after page refresh
+        arrayOfCitySearched.push(searchCity);
+        console.log(arrayOfCitySearched);
+    };
+});
+
+
+// click event targeting the city clicked from history ; using event delegation to
+// target a new generated element
+$("#history").on("click", "#buttonHistory" ,function () {
+    event.preventDefault()
+    searchCity = $(this).text();
+    $('#currentCityDate').text(searchCity + " ("+currentDay + ")")
+    weatherCity(searchCity);
+});
+
+
+
 // create a function to bring data from API and display it
 function weatherCity(city) {
     // create a variable for the query API that include the searched city
@@ -48,49 +94,3 @@ function weatherCity(city) {
             }
         });
 }
-
-
-// display weather for default city - London
-$('#currentCityDate').text("London ("+currentDay + ")")
-weatherCity("London");
-    
-
-
-
-
-// click event to display weather for searched city
-$("#search-button").on("click", function () {
-    event.preventDefault()
-
-    searchCity = $("#search-input").val();
-    // exclude empty space as an accepted search word
-    if (searchCity.trim() === "") {return};
-
-    weatherCity(searchCity);
-
-    $("#search-input").val('');
-    // check if the city name is not already in the array ; if not, create button for it
-    if ($.inArray(searchCity, arrayOfCitySearched) == -1) {
-        var buttonForSearchedCity = $('<button>');
-        buttonForSearchedCity.attr('id', 'buttonHistory')
-        buttonForSearchedCity.text(searchCity);
-        $('#history').prepend(buttonForSearchedCity);
-        // update the list of city searched array - needed to populate again after page refresh
-        arrayOfCitySearched.push(searchCity);
-        console.log(arrayOfCitySearched);
-    };
-
-
-});
-
-
-// click event targeting the city clicked from history ; using event delegation to
-// target a new generated element
-$("#history").on("click", "#buttonHistory" ,function () {
-    event.preventDefault()
-
-    searchCity = $(this).text();
-    
-    weatherCity(searchCity);
-
-});

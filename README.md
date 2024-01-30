@@ -21,7 +21,7 @@ This is how it looks:
 
 ## Installation
 
-The repository is on the GitHub repositories public domain ... and the deployed webpage can be found at... where it was deployed using GitHub
+The repository is on the GitHub repositories public domain https://github.com/docbogdanc/Weather-Dashboard-CristianB.git and the deployed webpage can be found at https://docbogdanc.github.io/Weather-Dashboard-CristianB/ where it was deployed using GitHub
 
 
 ## Usage

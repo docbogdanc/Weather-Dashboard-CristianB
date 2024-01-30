@@ -1,48 +1,51 @@
-
+/* styling for title with gradient of color */
 .weather-header {
-    background: linear-gradient(to right, #4d3fef, #070776);
+  background: linear-gradient(to right, #4d3fef, #070776);
 }
 
 #search-input {
-    width : 100%;
-    border-radius: 5px;
+  width: 100%;
+  border-radius: 5px;
 }
 
 .input-group-append {
-    width : 100%
+  width: 100%;
 }
 
 #search-button {
-    margin-top: 5px;
-    width: 100%;
+  margin-top: 5px;
+  width: 100%;
 }
 
 #buttonHistory {
-    margin-top: 5px;
-    border-radius: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
 }
 
 #resetHistory {
-    margin-top: 5px;
-    bottom: 5px;
-    width : 100%
+  margin-top: 5px;
+  bottom: 5px;
+  width: 100%;
 }
-
 
 #today {
-    border: solid 1px black;
+  border: solid 1px black;
 }
 
-#currentCityDate, #currentTemperature, #currentWind, #currentHumidity {
-    padding-left: 10px;
+#currentCityDate,
+#currentTemperature,
+#currentWind,
+#currentHumidity {
+  padding-left: 10px;
 }
 
-
+/* color for card representing the forecast weather */
 .card-body {
-    background-color: #141134;
-    color: white;
+  background-color: #141134;
+  color: white;
 }
 
+/* reduce the size of icons for forecast weather */
 .icons {
-    transform: 0.5 !important;
+  transform: 0.5 !important;
 }

@@ -1,6 +1,6 @@
 // creating varaible for weather API address and API key
 var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=";
-var forrecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
+var forecastURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
 var key = "7093b5895d7dff871294e9d20a842e17";
 
 // creating variables for current and 5days ahead dates
@@ -32,22 +32,25 @@ if (arrayOfCitySearched && arrayOfCitySearched.length > 0) {
   }
 }
 
-// display weather for default city - London
+// display weather for default city - London and add weather icon
 var cityQueryURL = queryURL + "London" + "&units=metric&appid=" + key;
 fetch(cityQueryURL)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
+    // set a variable for wather icon addres and display it
     var iconURLondon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
     var iconElement = $("<img>").attr("src", iconURLondon);
+    // display current weather data
     $("#span1").text("London (" + currentDay + ")");
     $("#span2").empty();
     $("#span2").append(iconElement);
+    // call the function and use API to populate weather data and display it
     weatherCity("London");
   });
 
-// click event to display the weather for searched city and create button for it
+// click event to display the weather for searched city and create a button for it
 $("#search-button").on("click", function () {
   event.preventDefault();
   // allocate the user input city to a variable
@@ -80,9 +83,7 @@ $("#search-button").on("click", function () {
       arrayOfCitySearched = [];
     }
     arrayOfCitySearched.push(searchCity);
-
     var stringOfCitySearched = JSON.stringify(arrayOfCitySearched);
-
     localStorage.setItem("cities", stringOfCitySearched);
   }
 });
@@ -99,41 +100,38 @@ $("#history").on("click", "#buttonHistory", function () {
 // reset history of searches
 $("#resetHistory").on("click", function () {
   event.preventDefault();
-
   $("#history").empty();
   localStorage.removeItem("cities");
 });
 
 // create a function to bring weather data from API and display it
 function weatherCity(city) {
-  // create a variable for the query API that include the searched city
+  // create a variable for the current weather query API URL that include the searched city
   var cityQueryURL = queryURL + city + "&units=metric&appid=" + key;
   fetch(cityQueryURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      // console.log(data);
-
+    //   create variable for weather icons URL and create a element to display them
       var iconURL = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
       var iconElement = $("<img>").attr("src", iconURL);
       $("#span2").empty();
       $("#span2").append(iconElement);
-
+    //   display current day weather data 
       $("#currentTemperature").text(" Temp: " + data.main.temp + "°C");
       $("#currentWind").text(" Wind: " + data.wind.speed + "KPH");
       $("#currentHumidity").text(" Humidity: " + data.main.humidity + "%");
     });
-
-  var forrecastCityURL = forrecastURL + city + "&units=metric&appid=" + key;
-  fetch(forrecastCityURL)
+  // create a variable for the forecast weather query API URL that include the searched city
+  var forecastCityURL = forecastURL + city + "&units=metric&appid=" + key;
+  fetch(forecastCityURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
+    //   create a loop to populate data for the 5 days forecasted (icluding the weather icons)
       for (var i = 1; i <= 5; i++) {
-        // console.log(data);
-        console.log(i);
         var iconURL = `https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png`;
         $("#day" + i + "card")
           .children()
